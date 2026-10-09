@@ -1,34 +1,96 @@
 {
-  "contact": { "name": "Teste M", "avatar": null },
+  "contact": {
+    "name": "Teste M",
+    "avatar": null
+  },
   "theme": "auto",
   "encryptionNotice": true,
   "turns": [
-    { "date": "8 de outubro de 2025" },
+    {
+      "date": "8 de outubro de 2025"
+    },
     {
       "from": "them",
       "messages": [
-        { "text": "Oi! Tudo bem?", "time": "17:25" },
-        { "text": "Irei avançar seja me rastejando ou não", "time": "17:28" }
+        {
+          "text": "Oi! Tudo bem?",
+          "time": "17:25"
+        },
+        {
+          "text": "Irei avançar seja me rastejando ou não",
+          "time": "17:28"
+        }
+      ]
+    },
+    {
+      "from": "them",
+      "messages": [
+        {
+          "call": {
+            "type": "voice",
+            "status": "answered",
+            "duration": "7 min"
+          },
+          "time": "12:31"
+        },
+        {
+          "call": {
+            "type": "voice",
+            "status": "answered-elsewhere"
+          },
+          "time": "17:40"
+        }
       ]
     },
     {
       "from": "me",
       "messages": [
-        { "text": "Olá, tudo bem?", "time": "17:39", "status": "read" },
-        { "image": "assets/chat/foto-me.jpg", "time": "17:41", "status": "read" }
-      ]
-    },
-    {
-      "from": "them",
-      "messages": [
-        { "text": "Tamo quase lá", "time": "17:48" },
-        { "image": "assets/chat/foto-contato.jpg", "caption": "Olha como ficou por aqui", "time": "17:49" }
+        {
+          "call": {
+            "type": "voice",
+            "status": "missed"
+          },
+          "time": "17:41"
+        }
       ]
     },
     {
       "from": "me",
       "messages": [
-        { "text": "Show! Depende, já temos 100k na conta de cada um?", "time": "17:52", "status": "delivered" }
+        {
+          "text": "Olá, tudo bem?",
+          "time": "17:39",
+          "status": "read"
+        },
+        {
+          "image": "assets/chat/foto-me.jpg",
+          "time": "17:41",
+          "status": "read"
+        }
+      ]
+    },
+    {
+      "from": "them",
+      "messages": [
+        {
+          "text": "Tamo quase lá",
+          "time": "17:48"
+        },
+        {
+          "image": "assets/chat/foto-contato.jpg",
+          "caption": "Olha como ficou por aqui",
+          "time": "17:49"
+        }
+      ]
+    },
+    {
+      "from": "me",
+      "messages": [
+        {
+          "text": "Show! Depende, já temos 100k na conta de cada um?",
+          "time": "17:52",
+          "status": "delivered"
+        }
       ]
     }
   ]

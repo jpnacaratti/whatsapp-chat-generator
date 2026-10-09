@@ -37,5 +37,11 @@ Também dá para arrastar um `.json` para dentro da página.
 
 - `from`: `me` (balão verde, à direita) ou `them` (à esquerda). Só a primeira mensagem de cada turno ganha o "rabinho".
 - `status` (só para `me`): `sent` ✓, `delivered` ✓✓ cinza (padrão), `read` ✓✓ azul.
+- Chamadas: `{ "call": { "type": "voice", "status": "answered", "duration": "7 min" }, "time": "12:31" }`
+  - `type`: `voice` (padrão) ou `video`
+  - `status`: `answered` (mostra `duration`), `answered-elsewhere` ("Ligação atendida em outro dispositivo") ou `missed` (ícone vermelho; "Ligação perdida" se recebida, "Sem resposta" se feita por você)
+  - `direction` (opcional): `incoming` ou `outgoing`; por padrão vem de `from` (`them` = recebida, `me` = feita)
+  - `title` e `subtitle` (opcionais) substituem os textos padrão
 - `{ "date": "..." }` insere uma etiqueta de data.
-- `contact.avatar` e `theme` são opcionais.
+- `contact.name` e `contact.avatar` (caminho de uma imagem) trocam o nome e a foto do cabeçalho. Sem `avatar`, ou se a imagem não carregar, aparece a silhueta padrão; sem `name`, "Teste M". Exemplo de foto: `assets/chat/avatar-exemplo.jpg`.
+- `theme` é opcional (`auto`, `light` ou `dark`).
