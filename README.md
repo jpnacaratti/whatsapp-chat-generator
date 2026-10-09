@@ -1,19 +1,20 @@
 # whats_gen
 
-Maquete de chat do WhatsApp (Android) em HTML, alimentada por JSON.
+Gerador de prints de conversas do WhatsApp (Android): você envia um JSON, a conversa é renderizada e exportada em PNG.
 
 ## Rodar
 
-```bash
-python -m http.server 8765
-```
+Dê dois cliques em `start.bat` (ou rode `python -m http.server 8765` e abra `http://localhost:8765/`).
 
-Abra `http://localhost:8765/chat.html`. Parâmetros opcionais:
+1. A página abre numa tela de upload: escolha ou arraste o `.json` da conversa (ou use "Usar conversa de exemplo").
+2. A conversa aparece no formato do celular, com a barra de ações acima. Role a conversa até o momento que quiser.
+3. Escolha a resolução e clique em **Exportar PNG**: o que está visível no celular (incluindo a posição da rolagem) é salvo como PNG.
+   - 2x = 787×1600, 3x = 1181×2400, 4x = 1574×3200.
+4. O botão **Tema** alterna claro/escuro antes de exportar; **Trocar JSON** volta ao upload.
 
-- `?chat=conversations/outra.json` — carrega outra conversa (padrão: `conversations/default.json`)
-- `?theme=light|dark` — força o tema (padrão: o do sistema)
+Parâmetros opcionais da URL: `?chat=conversations/outra.json` (pula o upload) e `?theme=light|dark`.
 
-Também dá para arrastar um `.json` para dentro da página.
+É preciso abrir por um servidor local (não direto do arquivo), porque as imagens e fontes são lidas durante a exportação.
 
 ## Formato do JSON
 
