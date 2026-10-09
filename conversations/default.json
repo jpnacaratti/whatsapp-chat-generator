@@ -1,0 +1,35 @@
+{
+  "contact": { "name": "Teste M", "avatar": null },
+  "theme": "auto",
+  "encryptionNotice": true,
+  "turns": [
+    { "date": "8 de outubro de 2025" },
+    {
+      "from": "them",
+      "messages": [
+        { "text": "Oi! Tudo bem?", "time": "17:25" },
+        { "text": "Irei avançar seja me rastejando ou não", "time": "17:28" }
+      ]
+    },
+    {
+      "from": "me",
+      "messages": [
+        { "text": "Olá, tudo bem?", "time": "17:39", "status": "read" },
+        { "image": "assets/chat/foto-me.jpg", "time": "17:41", "status": "read" }
+      ]
+    },
+    {
+      "from": "them",
+      "messages": [
+        { "text": "Tamo quase lá", "time": "17:48" },
+        { "image": "assets/chat/foto-contato.jpg", "caption": "Olha como ficou por aqui", "time": "17:49" }
+      ]
+    },
+    {
+      "from": "me",
+      "messages": [
+        { "text": "Show! Depende, já temos 100k na conta de cada um?", "time": "17:52", "status": "delivered" }
+      ]
+    }
+  ]
+}
