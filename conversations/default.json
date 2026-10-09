@@ -60,7 +60,10 @@
         {
           "text": "Olá, tudo bem?",
           "time": "17:39",
-          "status": "read"
+          "status": "read",
+          "reactions": [
+            "👍"
+          ]
         },
         {
           "image": "assets/chat/foto-me.jpg",
@@ -74,12 +77,22 @@
       "messages": [
         {
           "text": "Tamo quase lá",
-          "time": "17:48"
+          "time": "17:48",
+          "reactions": [
+            "😂"
+          ]
         },
         {
           "image": "assets/chat/foto-contato.jpg",
           "caption": "Olha como ficou por aqui",
-          "time": "17:49"
+          "time": "17:49",
+          "reactions": [
+            "❤️",
+            {
+              "emoji": "😮",
+              "count": 2
+            }
+          ]
         }
       ]
     },
