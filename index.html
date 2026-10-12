@@ -48,9 +48,9 @@
   .in .tail { left:-8rem; fill:var(--bubble-in); transform:scaleX(-1); } .out .tail { right:-8rem; fill:var(--bubble-out); }
   .tick { width:18rem; height:18rem; fill:currentColor; }
   .tick.read { color:#53bdeb; }
-  .m.img { padding:3.5rem; }
+  .m.img { padding:4.75rem; }
   .m.img .cap { display:block; padding:5rem 6rem 0 8rem; }
-  .pic { position:relative; width:249rem; border-radius:6.5rem; overflow:hidden; line-height:0; }
+  .pic { position:relative; width:274rem; border-radius:6.5rem; overflow:hidden; line-height:0; }
   .pic img { display:block; width:100%; height:auto; max-height:350rem; object-fit:cover; background:rgba(128,128,128,.2); }
   .pic .shade { position:absolute; right:0; bottom:0; width:130rem; height:60rem; background:radial-gradient(ellipse at 100% 100%, rgba(0,0,0,.6), rgba(0,0,0,0) 72%); display:flex; align-items:flex-end; justify-content:flex-end; padding:0 6rem 5rem 0; }
   .pic .meta { float:none; margin:0; color:#fff; }
@@ -72,6 +72,7 @@
   .react { position:absolute; bottom:-23rem; z-index:1; height:27rem; min-width:31rem; padding:0 3.5rem; box-sizing:border-box; border-radius:14rem; background:var(--react-bg); border:2rem solid var(--react-ring); box-shadow:var(--react-shadow); display:flex; align-items:center; justify-content:center; gap:2rem; font-size:16.5rem; line-height:1; white-space:nowrap; font-family:"Segoe UI Emoji","Apple Color Emoji",sans-serif; }
   .m.in .react { left:9.5rem; } .m.out .react { right:12.5rem; }
   .react .n { font-family:Roboto,"Segoe UI",sans-serif; font-size:13rem; color:var(--meta); margin-left:1rem; }
+  .emo { width:1.2em; height:1.2em; vertical-align:-.22em; margin:0 .03em; display:inline-block; }
   .react img { width:20rem; height:20rem; display:block; }
 
   /* ---- interface fora do celular ---- */
@@ -190,10 +191,10 @@
     if(m.image){
       b.append(el('div','fwd','<svg viewBox="0 0 24 24"><path d="M19.18 11 15.3 7.12a.97.97 0 0 1-.3-.7c0-.28.1-.52.3-.72.2-.18.44-.28.71-.28.28 0 .5.1.69.28l4.6 4.6c.1.1.17.2.21.32a1.2 1.2 0 0 1 0 .76.88.88 0 0 1-.21.32l-4.6 4.6a.9.9 0 0 1-.7.29c-.27-.01-.5-.1-.7-.29a1 1 0 0 1-.31-.7.87.87 0 0 1 .29-.7l3.9-3.9Zm-6 1H7c-.83 0-1.54.3-2.13.88A2.9 2.9 0 0 0 4 15v3c0 .28-.1.52-.29.71A.94.94 0 0 1 3 19a.97.97 0 0 1-.71-.29A.97.97 0 0 1 2 18v-3c0-1.38.49-2.56 1.46-3.54A4.82 4.82 0 0 1 7 10h6.18L10.3 7.12a.97.97 0 0 1-.3-.7c0-.28.1-.52.3-.72.2-.18.44-.28.71-.28.28 0 .5.1.69.28l4.6 4.6c.1.1.17.2.21.32a1.2 1.2 0 0 1 0 .76.88.88 0 0 1-.21.32l-4.6 4.6a.9.9 0 0 1-.7.29c-.27-.01-.5-.1-.7-.29a1 1 0 0 1-.31-.7.87.87 0 0 1 .29-.7l2.9-2.9Z"/></svg>'));
       const pic=el('div','pic'); const img=new Image(); img.src=m.image; img.alt=''; img.onload=toBottom; pic.append(img);
-      if(m.caption){ b.append(pic); const c=el('span','cap'); c.textContent=m.caption; c.append(meta(m,dir)); b.append(c); }
+      if(m.caption){ b.append(pic); const c=el('span','cap'); richText(c,m.caption); c.append(meta(m,dir)); b.append(c); }
       else { const sh=el('div','shade'); sh.append(meta(m,dir)); pic.append(sh); b.append(pic); }
     } else {
-      const s=el('span'); s.textContent=m.text||''; b.append(s, meta(m,dir));
+      const s=el('span'); richText(s,m.text); b.append(s, meta(m,dir));
     }
     return b;
   }
@@ -215,17 +216,35 @@
     })[st] || '';
     const b=el('div','m '+dir+(first?' first':'')+' call', first?TAIL:'');
     const card=el('div','call-card'), ico=el('div','call-ico'+(st==='missed'?' missed':''), callIcon(c, outgoing)), txt=el('div','call-txt');
-    const ti=el('div','call-title'); ti.textContent=title;
+    const ti=el('div','call-title'); richText(ti,title);
     const su=el('div','call-sub'); const s=el('span'); s.textContent=sub; su.append(s, el('span','meta',m.time||now()));
     txt.append(ti,su); card.append(ico,txt); b.append(card); return b;
   }
   // reações: "reactions": ["😂"]  ou  [{ "emoji": "👍", "count": 3 }]  (várias pessoas = vários itens)
   // emojis oficiais do WhatsApp: assets/emoji/<codepoints>.png (sem o fe0f); se não existir, usa o emoji do sistema
+  // assets/emoji/index.json lista os emojis disponiveis (de-para: emoji -> codepoints -> PNG)
+  let EMOJI=null;
+  const emojiReady=fetch('assets/emoji/index.json').then(r=>r.json()).then(a=>{ EMOJI=new Set(a); }).catch(()=>{});
+  const emojiName=ch=>[...ch].map(c=>c.codePointAt(0).toString(16)).filter(c=>c!=='fe0f').join('-');
   function emojiEl(ch){
-    const name=[...ch].map(c=>c.codePointAt(0).toString(16)).filter(c=>c!=='fe0f').join('-');
+    const name=emojiName(ch);
+    if(EMOJI && !EMOJI.has(name)) return document.createTextNode(ch);
     const img=new Image(); img.alt=ch; img.draggable=false;
     img.onerror=()=>img.replaceWith(document.createTextNode(ch));
     img.src='assets/emoji/'+name+'.png'; return img;
+  }
+  // texto com emojis -> trechos de texto + <img class="emo"> com o emoji oficial do WhatsApp
+  const segmenter=window.Intl&&Intl.Segmenter ? new Intl.Segmenter(undefined,{granularity:'grapheme'}) : null;
+  const isEmoji=g=>/\p{Extended_Pictographic}|\p{Regional_Indicator}|^[0-9#*]️?⃣/u.test(g);
+  function richText(node, str){
+    str=str||''; if(!segmenter){ node.append(str); return; }
+    let buf='';
+    for(const {segment:g} of segmenter.segment(str)){
+      if(!isEmoji(g)){ buf+=g; continue; }
+      if(buf){ node.append(buf); buf=''; }
+      const e=emojiEl(g); if(e.nodeType===1) e.classList.add('emo'); node.append(e);
+    }
+    if(buf) node.append(buf);
   }
   function addReactions(b, m){
     const list=(m.reactions||[]).map(r=>typeof r==='string' ? {emoji:r,count:1} : {emoji:r.emoji,count:r.count||1}).filter(r=>r.emoji);
@@ -277,17 +296,17 @@
   const $=id=>document.getElementById(id), upload=$('upload'), viewer=$('viewer'), errBox=$('error'), fileIn=$('file'), drop=$('drop');
   let currentName='conversa';
   function showError(msg){ errBox.textContent=msg; errBox.hidden=!msg; }
-  function open(conv){
+  async function open(conv){
     if(!conv || typeof conv!=='object' || !Array.isArray(conv.turns)) throw new Error('JSON inválido: faltou a lista "turns".');
     upload.hidden=true; viewer.hidden=false; showError(''); currentName=(conv.contact&&conv.contact.name)||'conversa';
-    render(conv);
+    await emojiReady; render(conv);
   }
   async function loadFile(f){
-    try{ open(JSON.parse(await f.text())); }
+    try{ await open(JSON.parse(await f.text())); }
     catch(e){ upload.hidden=false; viewer.hidden=true; showError('Não consegui ler o arquivo "'+f.name+'".\n'+e.message); }
   }
   async function loadUrl(u){
-    try{ const r=await fetch(u,{cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status); open(await r.json()); }
+    try{ const r=await fetch(u,{cache:'no-store'}); if(!r.ok) throw new Error("HTTP "+r.status); await open(await r.json()); }
     catch(e){ upload.hidden=false; viewer.hidden=true; showError('Não consegui carregar "'+u+'".\n'+e.message+'\nAbra esta página por um servidor local (ex.: start.bat ou python -m http.server).'); }
   }
   fileIn.addEventListener('change',()=>{ if(fileIn.files[0]) loadFile(fileIn.files[0]); fileIn.value=''; });
