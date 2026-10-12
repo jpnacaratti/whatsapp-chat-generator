@@ -1,6 +1,6 @@
-# whats_gen
+# WhatsApp Chat Generator
 
-Gerador de prints de conversas do WhatsApp (Android): você envia um JSON, a conversa é renderizada e exportada em PNG.
+Gerador de prints de conversas do WhatsApp (Android): você envia um JSON, a conversa é renderizada (tema claro ou escuro) e exportada em PNG de alta resolução.
 
 ## Rodar
 
@@ -46,7 +46,16 @@ Parâmetros opcionais da URL: `?chat=conversations/outra.json` (pula o upload) e
 - Reações (em qualquer mensagem: texto, imagem ou chamada): `"reactions": ["😂"]`
   - cada item é uma reação de uma pessoa; com mais de uma, o balãozinho mostra os emojis (até 3) e o total
   - também aceita `{ "emoji": "👍", "count": 3 }` para várias pessoas com o mesmo emoji
-  - os emojis são as imagens oficiais do WhatsApp Web, recortadas dos sprites. Estão em `assets/emoji/` só os 6 das reações rápidas: 👍 ❤️ 😂 😮 😢 🙏. Qualquer outro emoji aparece com o emoji do sistema; para adicionar um, salve o PNG como `assets/emoji/<codepoints>.png` (ex.: `1f44d.png`, sem o `fe0f`)
+- Imagens (`image`, com `caption` opcional) sempre ocupam a mesma largura (274 px do layout); a foto é ampliada ou reduzida sem distorcer e recortada se for muito alta.
 - `{ "date": "..." }` insere uma etiqueta de data.
 - `contact.name` e `contact.avatar` (caminho de uma imagem) trocam o nome e a foto do cabeçalho. Sem `avatar`, ou se a imagem não carregar, aparece a silhueta padrão; sem `name`, "Teste M". Exemplo de foto: `assets/chat/avatar-exemplo.jpg`.
 - `theme` é opcional (`auto`, `light` ou `dark`).
+
+## Emojis
+
+Qualquer emoji escrito no JSON (texto, legenda, título de chamada ou reação) aparece com a imagem oficial do WhatsApp, sem configuração extra.
+
+- O de-para é pelo código Unicode: o emoji vira `<codepoints>.png` (sem o `fe0f`, ex.: 👍🏽 → `1f44d-1f3fd.png`) em `assets/emoji/`. A lista dos disponíveis fica em `assets/emoji/index.json`.
+- Hoje são 3.289 emojis (cerca de 94% dos simples, 82% dos com tom de pele e parte dos combinados). Emoji que não está na lista aparece com o emoji do sistema.
+- Eles foram recortados dos sprites originais do WhatsApp Web (`assets/emoji-sprites/`) e associados ao código Unicode por semelhança visual com um conjunto de referência; um ou outro vizinho pode estar trocado. Para corrigir ou adicionar um, substitua ou salve o PNG (40×40) com o nome do código e inclua-o no `index.json`.
+- `conversations/emojis.json` é um exemplo para testar.
