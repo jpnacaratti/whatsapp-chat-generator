@@ -1,61 +1,63 @@
 # WhatsApp Chat Generator
 
-Gerador de prints de conversas do WhatsApp (Android): você envia um JSON, a conversa é renderizada (tema claro ou escuro) e exportada em PNG de alta resolução.
+Generates WhatsApp (Android) chat screenshots: you upload a JSON file, the conversation is rendered (light or dark theme) and exported as a high-resolution PNG.
 
-## Rodar
+## Running
 
-Dê dois cliques em `start.bat` (ou rode `python -m http.server 8765` e abra `http://localhost:8765/`).
+Double-click `start.bat` (or run `python -m http.server 8765` and open `http://localhost:8765/`).
 
-1. A página abre numa tela de upload: escolha ou arraste o `.json` da conversa (ou use "Usar conversa de exemplo").
-2. A conversa aparece no formato do celular, com a barra de ações acima. Role a conversa até o momento que quiser.
-3. Escolha a resolução e clique em **Exportar PNG**: o que está visível no celular (incluindo a posição da rolagem) é salvo como PNG.
+1. The page opens on an upload screen: choose or drag the conversation `.json` (or click "Usar conversa de exemplo").
+2. The conversation is rendered in a phone frame, with an action bar above it. Scroll the conversation to the moment you want.
+3. Pick the resolution and click **Exportar PNG**: whatever is visible on the phone (including the scroll position) is saved as a PNG.
    - 2x = 787×1600, 3x = 1181×2400, 4x = 1574×3200.
-4. O botão **Tema** alterna claro/escuro antes de exportar; **Trocar JSON** volta ao upload.
+4. The **Tema** button toggles light/dark before exporting; **Trocar JSON** goes back to the upload screen.
 
-Parâmetros opcionais da URL: `?chat=conversations/outra.json` (pula o upload) e `?theme=light|dark`.
+Optional URL parameters: `?chat=conversations/other.json` (skips the upload) and `?theme=light|dark`.
 
-É preciso abrir por um servidor local (não direto do arquivo), porque as imagens e fontes são lidas durante a exportação.
+It must be opened through a local server (not straight from the file), because images and fonts are read during the export.
 
-## Formato do JSON
+> The app interface and the WhatsApp texts it draws on its own (encryption notice, default call labels) are in Portuguese. Call labels can be overridden per message with `title` and `subtitle`, as in `conversations/default.json`.
+
+## JSON format
 
 ```json
 {
-  "contact": { "name": "Teste M", "avatar": "assets/chat/avatar.jpg" },
+  "contact": { "name": "Test M", "avatar": "assets/chat/avatar.jpg" },
   "theme": "auto",
   "encryptionNotice": true,
   "turns": [
-    { "date": "8 de outubro de 2025" },
+    { "date": "October 8, 2025" },
     { "from": "them", "messages": [
-      { "text": "Oi!", "time": "17:25" },
-      { "image": "assets/chat/foto.jpg", "caption": "opcional", "time": "17:26" }
+      { "text": "Hi!", "time": "17:25" },
+      { "image": "assets/chat/photo.jpg", "caption": "optional", "time": "17:26" }
     ]},
     { "from": "me", "messages": [
-      { "text": "Olá", "time": "17:39", "status": "read" }
+      { "text": "Hello", "time": "17:39", "status": "read" }
     ]}
   ]
 }
 ```
 
-- `from`: `me` (balão verde, à direita) ou `them` (à esquerda). Só a primeira mensagem de cada turno ganha o "rabinho".
-- `status` (só para `me`): `sent` ✓, `delivered` ✓✓ cinza (padrão), `read` ✓✓ azul.
-- Chamadas: `{ "call": { "type": "voice", "status": "answered", "duration": "7 min" }, "time": "12:31" }`
-  - `type`: `voice` (padrão) ou `video`
-  - `status`: `answered` (mostra `duration`), `answered-elsewhere` ("Ligação atendida em outro dispositivo") ou `missed` (ícone vermelho; "Ligação perdida" se recebida, "Sem resposta" se feita por você)
-  - `direction` (opcional): `incoming` ou `outgoing`; por padrão vem de `from` (`them` = recebida, `me` = feita)
-  - `title` e `subtitle` (opcionais) substituem os textos padrão
-- Reações (em qualquer mensagem: texto, imagem ou chamada): `"reactions": ["😂"]`
-  - cada item é uma reação de uma pessoa; com mais de uma, o balãozinho mostra os emojis (até 3) e o total
-  - também aceita `{ "emoji": "👍", "count": 3 }` para várias pessoas com o mesmo emoji
-- Imagens (`image`, com `caption` opcional) sempre ocupam a mesma largura (274 px do layout); a foto é ampliada ou reduzida sem distorcer e recortada se for muito alta.
-- `{ "date": "..." }` insere uma etiqueta de data.
-- `contact.name` e `contact.avatar` (caminho de uma imagem) trocam o nome e a foto do cabeçalho. Sem `avatar`, ou se a imagem não carregar, aparece a silhueta padrão; sem `name`, "Teste M". Exemplo de foto: `assets/chat/avatar-exemplo.jpg`.
-- `theme` é opcional (`auto`, `light` ou `dark`).
+- `from`: `me` (green bubble, on the right) or `them` (on the left). Only the first message of each turn gets the bubble tail.
+- `status` (`me` only): `sent` ✓, `delivered` ✓✓ gray (default), `read` ✓✓ blue.
+- Calls: `{ "call": { "type": "voice", "status": "answered", "duration": "7 min" }, "time": "12:31" }`
+  - `type`: `voice` (default) or `video`
+  - `status`: `answered` (shows `duration`), `answered-elsewhere` ("Ligação atendida em outro dispositivo") or `missed` (red icon; "Ligação perdida" if incoming, "Sem resposta" if outgoing)
+  - `direction` (optional): `incoming` or `outgoing`; by default it comes from `from` (`them` = incoming, `me` = outgoing)
+  - `title` and `subtitle` (optional) replace the default texts
+- Reactions (on any message: text, image or call): `"reactions": ["😂"]`
+  - each item is one person's reaction; with more than one, the small bubble shows the emojis (up to 3) and the total
+  - also accepts `{ "emoji": "👍", "count": 3 }` for several people with the same emoji
+- Images (`image`, with optional `caption`) always have the same width (274 px of the layout); the photo is scaled up or down without distortion and cropped if it is very tall.
+- `{ "date": "..." }` inserts a date label.
+- `contact.name` and `contact.avatar` (path to an image) change the name and photo in the header. Without `avatar`, or if the image fails to load, the default silhouette is shown; without `name`, "Teste M". Example photo: `assets/chat/avatar-exemplo.jpg`.
+- `theme` is optional (`auto`, `light` or `dark`).
 
 ## Emojis
 
-Qualquer emoji escrito no JSON (texto, legenda, título de chamada ou reação) aparece com a imagem oficial do WhatsApp, sem configuração extra.
+Any emoji written in the JSON (text, caption, call title or reaction) is shown with the official WhatsApp image, with no extra setup.
 
-- O de-para é pelo código Unicode: o emoji vira `<codepoints>.png` (sem o `fe0f`, ex.: 👍🏽 → `1f44d-1f3fd.png`) em `assets/emoji/`. A lista dos disponíveis fica em `assets/emoji/index.json`.
-- Hoje são 3.289 emojis (cerca de 94% dos simples, 82% dos com tom de pele e parte dos combinados). Emoji que não está na lista aparece com o emoji do sistema.
-- Eles foram recortados dos sprites originais do WhatsApp Web (`assets/emoji-sprites/`) e associados ao código Unicode por semelhança visual com um conjunto de referência; um ou outro vizinho pode estar trocado. Para corrigir ou adicionar um, substitua ou salve o PNG (40×40) com o nome do código e inclua-o no `index.json`.
-- `conversations/emojis.json` é um exemplo para testar.
+- The mapping is by Unicode code point: the emoji becomes `<codepoints>.png` (without `fe0f`, e.g. 👍🏽 → `1f44d-1f3fd.png`) in `assets/emoji/`. The list of available emojis is in `assets/emoji/index.json`.
+- There are currently 3,289 emojis (about 94% of the simple ones, 82% of those with skin tones and part of the combined ones). An emoji that is not in the list is shown with the system emoji.
+- They were cut from the original WhatsApp Web sprites (`assets/emoji-sprites/`) and matched to their Unicode code point by visual similarity against a reference set, so an occasional neighbor may be swapped. To fix or add one, replace or save the PNG (40×40) named after its code point and include it in `index.json`.
+- `conversations/emojis.json` is an example for testing.

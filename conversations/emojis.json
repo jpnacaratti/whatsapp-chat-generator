@@ -1,14 +1,14 @@
 {
-  "contact": { "name": "Teste M", "avatar": null },
+  "contact": { "name": "Test M", "avatar": null },
   "theme": "light",
   "turns": [
-    { "date": "9 de outubro de 2026" },
+    { "date": "October 9, 2026" },
     { "from": "them", "messages": [
-      { "text": "Bom dia 😀☀️ tudo certo? 🙏", "time": "08:00" },
-      { "text": "Bora de 🍕 + 🍺 hoje? 🥳🎉", "time": "08:01", "reactions": ["🔥", "😍"] }
+      { "text": "Good morning 😀☀️ all good? 🙏", "time": "08:00" },
+      { "text": "Pizza 🍕 + beer 🍺 tonight? 🥳🎉", "time": "08:01", "reactions": ["🔥", "😍"] }
     ] },
     { "from": "me", "messages": [
-      { "text": "Fechou 👍🏽 ✌️ 🐧 🇧🇷 👨‍👩‍👧 ❤️‍🔥 1️⃣ 🍍 🍌 😢 😮", "time": "08:02", "status": "read" },
+      { "text": "Deal 👍🏽 ✌️ 🐧 🇧🇷 👨‍👩‍👧 ❤️‍🔥 1️⃣ 🍍 🍌 😢 😮", "time": "08:02", "status": "read" },
       { "text": "😂😂😂😂", "time": "08:03", "status": "delivered" }
     ] }
   ]

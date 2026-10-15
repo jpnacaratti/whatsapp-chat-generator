@@ -1,23 +1,23 @@
 {
   "contact": {
-    "name": "Teste M",
+    "name": "Test M",
     "avatar": null
   },
   "theme": "auto",
   "encryptionNotice": true,
   "turns": [
     {
-      "date": "8 de outubro de 2025"
+      "date": "October 8, 2025"
     },
     {
       "from": "them",
       "messages": [
         {
-          "text": "Oi! Tudo bem?",
+          "text": "Hi! How are you?",
           "time": "17:25"
         },
         {
-          "text": "Irei avançar seja me rastejando ou não",
+          "text": "I'll keep going, crawling or not",
           "time": "17:28"
         }
       ]
@@ -29,14 +29,17 @@
           "call": {
             "type": "voice",
             "status": "answered",
-            "duration": "7 min"
+            "duration": "7 min",
+            "title": "Voice call"
           },
           "time": "12:31"
         },
         {
           "call": {
             "type": "voice",
-            "status": "answered-elsewhere"
+            "status": "answered-elsewhere",
+            "title": "Voice call",
+            "subtitle": "Call answered on another device"
           },
           "time": "17:40"
         }
@@ -48,7 +51,9 @@
         {
           "call": {
             "type": "voice",
-            "status": "missed"
+            "status": "missed",
+            "title": "Voice call",
+            "subtitle": "No answer"
           },
           "time": "17:41"
         }
@@ -58,7 +63,7 @@
       "from": "me",
       "messages": [
         {
-          "text": "Olá, tudo bem?",
+          "text": "Hello, how are you?",
           "time": "17:39",
           "status": "read",
           "reactions": [
@@ -76,7 +81,7 @@
       "from": "them",
       "messages": [
         {
-          "text": "Tamo quase lá",
+          "text": "We're almost there",
           "time": "17:48",
           "reactions": [
             "😂"
@@ -84,7 +89,7 @@
         },
         {
           "image": "assets/chat/foto-contato.jpg",
-          "caption": "Olha como ficou por aqui",
+          "caption": "Look how it turned out here",
           "time": "17:49",
           "reactions": [
             "❤️",
@@ -100,7 +105,7 @@
       "from": "me",
       "messages": [
         {
-          "text": "Show! Depende, já temos 100k na conta de cada um?",
+          "text": "Great! Depends, do we already have 100k in each account?",
           "time": "17:52",
           "status": "delivered"
         }
