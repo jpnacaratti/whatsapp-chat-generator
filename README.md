@@ -4,7 +4,7 @@ Generates WhatsApp (Android) chat screenshots: you upload a JSON file, the conve
 
 ## Running
 
-Double-click `start.bat` (or run `python -m http.server 8765` and open `http://localhost:8765/`).
+Double-click `start.bat` on Windows, or run `./start.sh` on Linux/macOS (or run `python -m http.server 8765` and open `http://localhost:8765/`).
 
 1. The page opens on an upload screen: choose or drag the conversation `.json` (or click "Usar conversa de exemplo").
 2. The conversation is rendered in a phone frame, with an action bar above it. Scroll the conversation to the moment you want.
