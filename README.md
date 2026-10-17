@@ -105,3 +105,7 @@ Any emoji written in the JSON (text, caption, call title or reaction) is shown w
 - There are currently 3,289 emojis (about 94% of the simple ones, 82% of those with skin tones and part of the combined ones). An emoji that is not in the list is shown with the system emoji.
 - They were cut from the original WhatsApp Web sprites (`web/assets/emoji-sprites/`) and matched to their Unicode code point by visual similarity against a reference set, so an occasional neighbor may be swapped. To fix or add one, replace or save the PNG (40×40) named after its code point and include it in `index.json`.
 - `web/conversations/emojis.json` is an example for testing.
+
+## License
+
+The code is released under the [MIT License](LICENSE). Third-party files keep their own licenses: Roboto (`web/assets/fonts/LICENSE.txt`) and html-to-image (`web/assets/vendor/html-to-image.LICENSE.txt`). The emoji images and the chat background are WhatsApp's, are not covered by the MIT License, and are included only for visual fidelity. This project is not affiliated with WhatsApp or Meta.

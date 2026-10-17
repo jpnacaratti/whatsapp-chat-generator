@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Generate WhatsApp (Android) chat screenshots from a JSON file, in the browser or from the command line.",
   "private": true,
+  "license": "MIT",
   "bin": { "whatsgen": "cli/whatsgen.js" },
   "scripts": {
     "compare": "node cli/compare.js"
