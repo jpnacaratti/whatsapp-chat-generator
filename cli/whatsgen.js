@@ -15,7 +15,7 @@ Options:
                           Default: <input name>.<format> next to the JSON.
   -d, --out-dir <dir>     Output directory (default: next to each JSON).
   -f, --format <fmt>      png | jpeg | webp (default: png, or taken from -o extension).
-  -s, --scale <n>         Resolution multiplier, 0.5 to 8 (default: 3 -> 1181x2400).
+  -s, --scale <n>         Resolution multiplier, 0.5 to 8 (default: 3 -> 1180x2400).
                           Base size is 393.5x800 px; 2 -> 787x1600, 4 -> 1574x3200.
   -t, --theme <theme>     light | dark | auto (default: the JSON "theme", else light).
   -q, --quality <1-100>   JPEG/WebP quality (default: 92).
@@ -75,12 +75,12 @@ async function main() {
   format = format || 'png';
   const ext = format === 'jpeg' ? 'jpg' : format;
 
-  // lê e valida tudo antes de abrir o navegador
+  // read and validate everything before opening the browser
   const jobs = [];
   for (const input of inputs) {
     let text, jsonDir, base;
     try {
-      if (input === '-') { text = await readStdin(); jsonDir = process.cwd(); base = 'conversa'; }
+      if (input === '-') { text = await readStdin(); jsonDir = process.cwd(); base = 'chat'; }
       else { text = fs.readFileSync(input, 'utf8'); jsonDir = path.dirname(path.resolve(input)); base = path.basename(input, path.extname(input)); }
     } catch (e) { fail(`cannot read "${input}": ${e.message}`, 1); }
     let conv;

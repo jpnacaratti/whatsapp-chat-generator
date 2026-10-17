@@ -96,7 +96,7 @@ body {
   height: 100%;
 }
 
-/* 1rem = 1 px do layout de 393,5 x 800 px; o celular encolhe para caber na janela, com a barra e margens em cima e embaixo */
+/* 1rem = 1 px of the 393.5 x 800 px layout; the phone shrinks to fit the window, leaving room for the bar and margins above and below */
 html {
   font-size: calc(min((100vw - 32px) / 393.5, (100vh - 148px) / 800));
 }
@@ -127,7 +127,7 @@ svg {
   display: block;
 }
 
-/* ---- cabeçalho ---- */
+/* ---- header ---- */
 header {
   height: calc(61rem/1);
   height: 61rem;
@@ -172,7 +172,7 @@ header .ic {
   top: 19rem;
 }
 
-/* ---- conversa ---- */
+/* ---- conversation ---- */
 .msgs {
   flex: 1;
   overflow-y: auto;
@@ -231,7 +231,7 @@ header .ic {
   font-weight: 700;
 }
 
-/* ---- balões ---- */
+/* ---- bubbles ---- */
 .m {
   position: relative;
   max-width: 314rem;
@@ -308,7 +308,7 @@ header .ic {
   color: #53bdeb;
 }
 
-/* ---- imagens ---- */
+/* ---- images ---- */
 .m.img {
   padding: 4.75rem;
 }
@@ -389,7 +389,7 @@ header .ic {
   right: -44.25rem;
 }
 
-/* ---- chamadas ---- */
+/* ---- calls ---- */
 .m.call {
   padding: 4rem;
   max-width: 312rem;
@@ -452,7 +452,7 @@ header .ic {
   color: var(--meta);
 }
 
-/* ---- reações e emojis ---- */
+/* ---- reactions and emojis ---- */
 .m.has-react {
   margin-bottom: 23rem;
 }
@@ -508,7 +508,7 @@ header .ic {
   display: block;
 }
 
-/* ---- interface fora do celular ---- */
+/* ---- interface outside the phone ---- */
 [hidden] {
   display: none !important;
 }
@@ -673,7 +673,7 @@ header .ic {
   margin-top: 10rem;
 }
 
-/* ---- campo de mensagem ---- */
+/* ---- message field ---- */
 .composer {
   height: 62rem;
   flex: none;

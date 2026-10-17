@@ -1,6 +1,6 @@
 'use strict';
-// Servidor estático mínimo para web/ (a página faz fetch de JSON/assets, então file:// não funciona).
-// Arquivos extras (fotos do JSON que estão fora de web/) são registrados com addFile() e servidos em /__f/<n>/<nome>.
+// Minimal static server for web/ (the page fetches JSON/assets, so file:// does not work).
+// Extra files (JSON photos outside web/) are registered with addFile() and served at /__f/<n>/<name>.
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
@@ -24,7 +24,7 @@ function startServer(port = 0) {
         const p = path.join(WEB_ROOT, pathname === '/' ? 'index.html' : pathname);
         if (p.startsWith(WEB_ROOT + path.sep)) file = p;
       }
-    } catch { /* URL inválida */ }
+    } catch { /* invalid URL */ }
     fs.readFile(file || '', (err, data) => {
       if (err) { res.writeHead(404); return res.end('not found'); }
       res.writeHead(200, { 'Content-Type': TYPES[path.extname(file).toLowerCase()] || 'application/octet-stream' });

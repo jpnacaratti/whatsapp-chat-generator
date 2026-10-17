@@ -1,5 +1,5 @@
 'use strict';
-// Procura um Chrome/Chromium/Edge instalado (puppeteer-core não baixa navegador).
+// Finds an installed Chrome/Chromium/Edge (puppeteer-core does not download a browser).
 const fs = require('fs');
 const path = require('path');
 

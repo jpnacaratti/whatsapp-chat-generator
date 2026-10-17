@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
-// Compara o PNG do CLI (screenshot do Chromium) com o PNG da interface web (html-to-image) para o mesmo JSON.
-// Uso: node cli/compare.js <conversa.json> [--scale 3] [--theme light|dark] [--out-dir dir]
+// Compares the CLI PNG with the web interface PNG for the same JSON (both use whatsgen.capture).
+// Usage: node cli/compare.js <conversation.json> [--scale 3] [--theme light|dark] [--out-dir dir]
 const fs = require('fs');
 const path = require('path');
 const { PNG } = require('pngjs');
@@ -11,11 +11,11 @@ const { launch, prepare } = require('./render');
 const args = process.argv.slice(2);
 const opt = (n, d) => { const i = args.indexOf('--' + n); return i < 0 ? d : args[i + 1]; };
 const file = args.find((a, i) => !a.startsWith('--') && !args[i - 1]?.startsWith('--'));
-if (!file) { console.error('usage: node cli/compare.js <conversa.json> [--scale 3] [--theme light|dark] [--out-dir dir]'); process.exit(2); }
+if (!file) { console.error('usage: node cli/compare.js <conversation.json> [--scale 3] [--theme light|dark] [--out-dir dir]'); process.exit(2); }
 const scale = +opt('scale', 3), theme = opt('theme', 'light'), outDir = opt('out-dir', path.join(require('os').tmpdir(), 'whatsgen-compare'));
 
 async function webPng(r, conv, jsonDir) {
-  // mesmas condições da interface: janela de desktop (1rem fica fracionário) e exportação do app.js (html-to-image)
+  // same conditions as the interface: a desktop-size window (1rem is fractional) and the app.js export
   const page = await r.browser.newPage();
   try {
     await page.setViewport({ width: 1280, height: 1000, deviceScaleFactor: 1 });
@@ -48,7 +48,7 @@ async function webPng(r, conv, jsonDir) {
 
   const w = Math.min(a.width, b.width), h = Math.min(a.height, b.height);
   const px = (img, x, y, c) => img.data[(y * img.width + x) * 4 + c];
-  // pixel "sem par": diferença > 32 e nenhum pixel num raio de R px na outra imagem se parece com ele (separa deslocamento/antialiasing de conteúdo diferente)
+  // "unmatched" pixel: differs by > 32 and no pixel within R px in the other image looks like it (separates shifts/antialiasing from real content differences)
   const R = 2, near = (x, y) => { let best = 255; for (let dy = -R; dy <= R; dy++) for (let dx = -R; dx <= R; dx++) { const xx = x + dx, yy = y + dy; if (xx < 0 || yy < 0 || xx >= w || yy >= h) continue; let m = 0; for (let c = 0; c < 3; c++) m = Math.max(m, Math.abs(px(a, x, y, c) - px(b, xx, yy, c))); if (m < best) best = m; } return best; };
   let unmatched = 0;
   let sum = 0, n1 = 0, n8 = 0, n32 = 0, max = 0, x0 = w, y0 = h, x1 = -1, y1 = -1;

@@ -10,10 +10,10 @@ const tick = s => s === 'sent'
 
 const root=document.documentElement, msgs=document.getElementById("msgs"), thread=document.getElementById("thread");
 const params=new URLSearchParams(location.search);
-const now=()=>new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+const now=()=>new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});
 const toBottom=()=>{ msgs.scrollTop=msgs.scrollHeight; };
 
-// opts.theme (light|dark|auto) tem prioridade; depois ?theme= na URL; depois o tema do JSON
+// opts.theme (light|dark|auto) wins; then ?theme= in the URL; then the JSON theme
 function applyTheme(pref, force){
 const v=force||params.get("theme")||pref||"auto";
 root.dataset.theme = v==="auto" ? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark":"light") : v;
@@ -46,11 +46,11 @@ function callIcon(c, outgoing){
 }
 function callBubble(m, dir, first){
   const c=m.call||{}, outgoing = (c.direction ? c.direction==='outgoing' : dir==='out'), video=c.type==='video', st=c.status||'answered';
-  const title = c.title || (video ? 'Ligação de vídeo' : 'Ligação de voz');
+  const title = c.title || (video ? 'Video call' : 'Voice call');
   const sub = c.subtitle || ({
-    'answered': c.duration || 'Ligação atendida',
-    'answered-elsewhere': 'Ligação atendida em outro dispositivo',
-    'missed': outgoing ? 'Sem resposta' : 'Ligação perdida'
+    'answered': c.duration || 'Call answered',
+    'answered-elsewhere': 'Call answered on another device',
+    'missed': outgoing ? 'No answer' : 'Missed call'
   })[st] || '';
   const b=el('div','m '+dir+(first?' first':'')+' call', first?TAIL:'');
   const card=el('div','call-card'), ico=el('div','call-ico'+(st==='missed'?' missed':''), callIcon(c, outgoing)), txt=el('div','call-txt');
@@ -58,9 +58,9 @@ function callBubble(m, dir, first){
   const su=el('div','call-sub'); const s=el('span'); s.textContent=sub; su.append(s, el('span','meta',m.time||now()));
   txt.append(ti,su); card.append(ico,txt); b.append(card); return b;
 }
-// reações: "reactions": ["😂"]  ou  [{ "emoji": "👍", "count": 3 }]  (várias pessoas = vários itens)
-// emojis oficiais do WhatsApp: assets/emoji/<codepoints>.png (sem o fe0f); se não existir, usa o emoji do sistema
-// assets/emoji/index.json lista os emojis disponiveis (de-para: emoji -> codepoints -> PNG)
+// reactions: "reactions": ["😂"]  or  [{ "emoji": "👍", "count": 3 }]  (several people = several items)
+// official WhatsApp emojis: assets/emoji/<codepoints>.png (without fe0f); if missing, falls back to the system emoji
+// assets/emoji/index.json lists the available emojis (mapping: emoji -> codepoints -> PNG)
 let EMOJI=null;
 const emojiReady=fetch('assets/emoji/index.json').then(r=>r.json()).then(a=>{ EMOJI=new Set(a); }).catch(()=>{});
 const emojiName=ch=>[...ch].map(c=>c.codePointAt(0).toString(16)).filter(c=>c!=='fe0f').join('-');
@@ -71,7 +71,7 @@ function emojiEl(ch){
   img.onerror=()=>img.replaceWith(document.createTextNode(ch));
   img.src='assets/emoji/'+name+'.png'; return img;
 }
-// texto com emojis -> trechos de texto + <img class="emo"> com o emoji oficial do WhatsApp
+// text with emojis -> text runs + <img class="emo"> with the official WhatsApp emoji
 const segmenter=window.Intl&&Intl.Segmenter ? new Intl.Segmenter(undefined,{granularity:'grapheme'}) : null;
 const isEmoji=g=>/\p{Extended_Pictographic}|\p{Regional_Indicator}|^[0-9#*]️?⃣/u.test(g);
 function richText(node, str){
@@ -93,7 +93,7 @@ function addReactions(b, m){
   b.classList.add('has-react'); b.append(pill); return b;
 }
 function notice(){
-  return el('div','notice','<svg viewBox="0 0 9 11"><path d="M7.500 4H7V3a2.500 2.500 0 0 0-5 0v1h-.5A.5.500 0 0 0 1 4.500v5a.5.500 0 0 0 .5.500h6a.5.500 0 0 0 .5-.5v-5A.5.500 0 0 0 7.500 4zM3 3a1.500 1.500 0 0 1 3 0v1H3z"/></svg>As mensagens e ligações são protegidas com a criptografia de ponta a ponta. Somente as pessoas que fazem parte da conversa podem ler, ouvir e compartilhar esse conteúdo. <b>Saiba mais</b>');
+  return el('div','notice','<svg viewBox="0 0 9 11"><path d="M7.500 4H7V3a2.500 2.500 0 0 0-5 0v1h-.5A.5.500 0 0 0 1 4.500v5a.5.500 0 0 0 .5.500h6a.5.500 0 0 0 .5-.5v-5A.5.500 0 0 0 7.500 4zM3 3a1.500 1.500 0 0 1 3 0v1H3z"/></svg>Messages and calls are end-to-end encrypted. Only people in this chat can read, listen to, or share them. <b>Learn more</b>');
 }
 function chip(label){ const c=el('div','chip'); c.textContent=label; return c; }
 
@@ -120,8 +120,8 @@ function render(conv, opts={}){
   toBottom();
 }
 
-// espera todas as <img> do celular (fotos, emojis, avatar) terminarem de carregar
+// waits for every <img> in the phone (photos, emojis, avatar) to finish loading
 const imagesReady=()=>Promise.all([avatarReady, ...[...document.querySelectorAll(".phone img")].map(i=>i.complete ? 0 : new Promise(r=>{ i.addEventListener("load",r); i.addEventListener("error",r); }))]);
 
-// API usada pelo app.js e pelo CLI: window.whatsgen.render(conv, {theme}) -> promessa resolvida quando tudo carregou
+// API used by app.js and the CLI: window.whatsgen.render(conv, {theme}) -> promise resolved once everything has loaded
 window.whatsgen = { async render(conv, opts={}){ await emojiReady; render(conv, opts); await document.fonts.ready; await imagesReady(); toBottom(); } };

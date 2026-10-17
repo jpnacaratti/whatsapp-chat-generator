@@ -13,11 +13,11 @@ cli/      the command-line tool (whatsgen) and a pixel-comparison script
 
 Double-click `start.bat` on Windows, or run `./start.sh` on Linux/macOS (or run `python -m http.server 8765` and open `http://localhost:8765/`).
 
-1. The page opens on an upload screen: choose or drag the conversation `.json` (or click "Usar conversa de exemplo").
+1. The page opens on an upload screen: choose or drag the conversation `.json` (or click "Use the sample conversation").
 2. The conversation is rendered in a phone frame, with an action bar above it. Scroll the conversation to the moment you want.
-3. Pick the resolution and click **Exportar PNG**: whatever is visible on the phone (including the scroll position) is saved as a PNG.
+3. Pick the resolution and click **Export PNG**: whatever is visible on the phone (including the scroll position) is saved as a PNG.
    - 2x = 787×1600, 3x = 1180×2400, 4x = 1574×3200.
-4. The **Tema** button toggles light/dark before exporting; **Trocar JSON** goes back to the upload screen.
+4. The **Theme** button toggles light/dark before exporting; **Change JSON** goes back to the upload screen.
 
 Optional URL parameters: `?chat=conversations/other.json` (skips the upload) and `?theme=light|dark`.
 
@@ -49,11 +49,11 @@ Or install the `whatsgen` command with `npm install -g .` (or `npm link`).
 
 Use `-` as the input to read the JSON from stdin. Image paths in the JSON are looked up relative to the JSON file, then to `web/`, then to the current directory. Exit code is 0 on success, 1 on errors, 2 on bad usage.
 
-The CLI loads the same page as the web interface in a headless browser and calls the same capture function as the **Exportar** button (`whatsgen.capture` in `web/js/app.js`), so both produce the same image: same size (`floor(393.5 × scale)` × `800 × scale`) and pixel-identical output, whatever the window size. It exports the conversation scrolled to the bottom, like the app does after loading.
+The CLI loads the same page as the web interface in a headless browser and calls the same capture function as the **Export** button (`whatsgen.capture` in `web/js/app.js`), so both produce the same image: same size (`floor(393.5 × scale)` × `800 × scale`) and pixel-identical output, whatever the window size. It exports the conversation scrolled to the bottom, like the app does after loading.
 
 `npm run compare -- <conversation.json> [--scale 3] [--theme dark]` checks this: it renders the JSON through the CLI and through the web page (at a desktop window size) and prints the pixel difference, which should be 0. The images and a diff map go to the system temp folder. The guarantee holds for the same browser engine; another browser or version may anti-alias text slightly differently.
 
-> The app interface and the WhatsApp texts it draws on its own (encryption notice, default call labels) are in Portuguese. Call labels can be overridden per message with `title` and `subtitle`, as in `web/conversations/default.json`.
+> The WhatsApp texts the app draws on its own (encryption notice, default call labels) are in English. Call labels can be overridden per message with `title` and `subtitle`, as in `web/conversations/default.json`.
 
 ## JSON format
 
@@ -79,7 +79,7 @@ The CLI loads the same page as the web interface in a headless browser and calls
 - `status` (`me` only): `sent` ✓, `delivered` ✓✓ gray (default), `read` ✓✓ blue.
 - Calls: `{ "call": { "type": "voice", "status": "answered", "duration": "7 min" }, "time": "12:31" }`
   - `type`: `voice` (default) or `video`
-  - `status`: `answered` (shows `duration`), `answered-elsewhere` ("Ligação atendida em outro dispositivo") or `missed` (red icon; "Ligação perdida" if incoming, "Sem resposta" if outgoing)
+  - `status`: `answered` (shows `duration`), `answered-elsewhere` ("Call answered on another device") or `missed` (red icon; "Missed call" if incoming, "No answer" if outgoing)
   - `direction` (optional): `incoming` or `outgoing`; by default it comes from `from` (`them` = incoming, `me` = outgoing)
   - `title` and `subtitle` (optional) replace the default texts
 - Reactions (on any message: text, image or call): `"reactions": ["😂"]`
@@ -87,7 +87,7 @@ The CLI loads the same page as the web interface in a headless browser and calls
   - also accepts `{ "emoji": "👍", "count": 3 }` for several people with the same emoji
 - Images (`image`, with optional `caption`) always have the same width (274 px of the layout); the photo is scaled up or down without distortion and cropped if it is very tall.
 - `{ "date": "..." }` inserts a date label.
-- `contact.name` and `contact.avatar` (path to an image) change the name and photo in the header. Without `avatar`, or if the image fails to load, the default silhouette is shown; without `name`, "Teste M". Example photo: `web/assets/chat/avatar-exemplo.jpg`.
+- `contact.name` and `contact.avatar` (path to an image) change the name and photo in the header. Without `avatar`, or if the image fails to load, the default silhouette is shown; without `name`, "Test M". Example photo: `web/assets/chat/avatar-exemplo.jpg`.
 - `theme` is optional (`auto`, `light` or `dark`).
 
 ## Emojis
