@@ -1,0 +1,13 @@
+{
+  "name": "whatsapp-chat-generator",
+  "version": "1.0.0",
+  "description": "Generate WhatsApp (Android) chat screenshots from a JSON file, in the browser or from the command line.",
+  "private": true,
+  "bin": { "whatsgen": "cli/whatsgen.js" },
+  "scripts": {
+    "compare": "node cli/compare.js"
+  },
+  "engines": { "node": ">=18" },
+  "dependencies": { "puppeteer-core": "^24.0.0" },
+  "devDependencies": { "pixelmatch": "^6.0.0", "pngjs": "^7.0.0" }
+}
