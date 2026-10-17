@@ -2,11 +2,18 @@
 
 Generates WhatsApp (Android) chat screenshots: you upload a JSON file, the conversation is rendered (light or dark theme) and exported as a high-resolution image, either from the web interface or from the command line.
 
+<p align="center">
+  <img src="docs/images/example-light.png" alt="Light theme example" width="300">
+  &nbsp;&nbsp;
+  <img src="docs/images/example-dark.png" alt="Dark theme example" width="300">
+</p>
+
 ## Layout
 
 ```
 web/      the web interface (index.html, css/, js/, assets/, conversations/ samples)
 cli/      the command-line tool (whatsgen) and a pixel-comparison script
+docs/     images used by this README
 ```
 
 ## Web interface
